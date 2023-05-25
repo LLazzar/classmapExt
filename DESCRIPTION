@@ -1,11 +1,15 @@
 Package: classmapExt
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Supplementary functions integrating classmap package
+Date: 2023-05-23
+Version: 1.0.0
+Author: Lorenzo Lazzari
+Maintainer:  Lorenzo Lazzari <lorenzo.lazzari6@studio.unibo.it>
+Description: Provides supplementary functions designed to extend the functionalities of the classmap package.
+  Classmap package provides graphical displays to visualize results of classification cases (with known class).
+  This package add support for the visualizations to possibly any classification algorithm of choice via vcr.custom.*, 
+  add support fort the visualizations for the pamr (NSC) algorithm via vcr.pamr.*, adds an additional graphical display
+  named mdscolorscale. It is intended to be loaded together with the classmap package.
+License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
