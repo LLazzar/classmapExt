@@ -1,16 +1,4 @@
-######################### (code that will not be needed in case of classmap merge)
-
-#to import functions needed for VCR_custom (especially for checkLabels, computeFarness..)
-library(cellWise) #for transfo function used in Comp fareness in VCR_auxillaryFunctions.R #this would go in imports in (NAMESCPACE) of the package
-source("R_classmap_package_full/R/VCR_auxiliaryFunctions.R") #importing auxillary functions needed
-                                                             #this script is available in classmap package
-                                                             #so in case of integration of VCR_custom to classmap
-                                                             #this import would be useless
-
-#when building classmapExt cellwise should go on imports and VCR_auxiliaryFunctions.R put in the package (as it can't be imported from classmap sinc eit is invisible from user)
-#in github repo package add about merge to classmpa section and what should be disgarded or added to classmap
-
-#########################
+################
 
 # TRYING TO DEVISE THIS FUNCTION LIKE vcr.neural ALREADY IN THE PACKAGE THAT IS RATHER FLEXIBLE FOR NEURAL NETWORKS
 
@@ -23,7 +11,7 @@ vcr.custom.train <- function(y, probs, distToClasses=NULL) {
   #
   #
   #
-  # 
+  #
   # Arguments:
   #
   #   y             : factor with the given class labels of the objects.
@@ -35,10 +23,10 @@ vcr.custom.train <- function(y, probs, distToClasses=NULL) {
   #                   This posteriors should be consisent with the fact that classifier
   #                   object to class with higher posterior (NBNB).
   #   distToClasses : set of distances of each training observation to all possible class in
-  #                   the eye of the trained algorithm, defined by user, it allows computation 
+  #                   the eye of the trained algorithm, defined by user, it allows computation
   #                   of farness for each observaiton and thus of the classmap plot.
   #                   The columns of distToclass, that represents the classes, must be in the same order as the levels of y.
-  # 
+  #
   # Returns:
   #   yint      : given labels as integer 1, 2, 3, ...
   #   y         : given labels
@@ -63,11 +51,11 @@ vcr.custom.train <- function(y, probs, distToClasses=NULL) {
   #
 
   n <- length(y)
-  if (n < 2) stop("The training data should have more than one case.") 
+  if (n < 2) stop("The training data should have more than one case.")
 
   # Check whether y and its levels are of the right form:
-  checked <- checkLabels(y, n, training = TRUE) 
-  
+  checked <- checkLabels(y, n, training = TRUE)
+
   # If it did not stop: yint has length n, and its values are in
   # 1, ..., nlab without gaps. It is NA where y is: outside indsv.
   lab2int <- checked$lab2int #retrieves function that form labels levels assign integers
@@ -76,12 +64,12 @@ vcr.custom.train <- function(y, probs, distToClasses=NULL) {
   nlab    <- length(levels)
   yint    <- lab2int(y) #given label (true) as integer
   yintv   <- yint[indsv] #subsetting yint variable to non NAs
-  
+
   #
   #
   # Check matrix of posterior probabilities:
   #
-  
+
   probs <- as.matrix(probs)
   if (length(dim(probs)) != 2) stop("probs should be a matrix.")
   if (nrow(probs) != n) stop(paste0(
@@ -95,10 +83,10 @@ vcr.custom.train <- function(y, probs, distToClasses=NULL) {
   predint <- apply(probs[, , drop = FALSE], 1, which.max) #label that should be predicted by algorithm
                                                           #for that NB that user provide posterior that are consistent
                                                           #in the sense that classifier predicts label with higher posterior
-  
+
   #
   #
-  # 
+  #
   # Computing all the quantities for the PAC
   ptrue <- palt <- altint <- PAC <- rep(NA, n)
   for (g in seq_len(nlab)) { # g=1
@@ -131,11 +119,11 @@ vcr.custom.train <- function(y, probs, distToClasses=NULL) {
     if (any(is.na(distToClasses))) stop("distToclasses should not have any NA's.")
     ####################
 
-    #using compFarness with affine option that takes input the matrix distToClasses and estimate cumulative 
+    #using compFarness with affine option that takes input the matrix distToClasses and estimate cumulative
     #distribution D(x,ki)
     farout <- compFarness(type = "affine", testdata = FALSE, yint = yint,
                         nlab = nlab, X = NULL, fig = distToClasses,
-                        d = NULL, figparams = NULL) 
+                        d = NULL, figparams = NULL)
 
     figparams <- farout$figparams
   }
@@ -167,7 +155,7 @@ vcr.custom.newdata <- function(ynew, probs, vcr.custom.train.out, newDistToClass
   # of vcr.custom.train() on the training data.
   #
   # Arguments:
-  #   
+  #
   #   ynew                 : factor with class membership of each new
   #                          case. Can be NA for some or all cases.
   #                          If NULL, is assumed to be NA everywhere.
@@ -189,14 +177,14 @@ vcr.custom.newdata <- function(ynew, probs, vcr.custom.train.out, newDistToClass
   #   PAC       : probability of alternative class for each object
   #               with non-NA yintnew.
   #   figparams : (from training) parameters used to compute fig
-  #   fig       : farness of each object i from each class g.  #             
+  #   fig       : farness of each object i from each class g.  #
   #   farness   : farness of each object to its given class, for
   #               objects with non-NA yintnew.
   #   ofarness  : For each object i, its lowest farness to any
   #               class, including its own. Always exists.
   #
   n <- length(ynew)
-  
+
   levels <- vcr.custom.train.out$levels # as in training data #for this we require vcr.custom.train out
   nlab   <- length(levels) # number of classes
   #
@@ -239,7 +227,7 @@ vcr.custom.newdata <- function(ynew, probs, vcr.custom.train.out, newDistToClass
     PAC[indsv] <- palt[indsv] / (ptrue[indsv] + palt[indsv])
     # (PAC and altint stay NA outside indsv)
   }
-  
+
   if (!is.null(newDistToClasses)) {
     # Compute farness:
     #
@@ -255,7 +243,7 @@ vcr.custom.newdata <- function(ynew, probs, vcr.custom.train.out, newDistToClass
     #
     #
     #
-    
+
     farout <- compFarness(type = "affine", testdata = TRUE, #again affine is good for our purpose as it does estimation based on train paramters
                           yint = yintnew, nlab = nlab, X = NULL,
                           fig = newDistToClasses, figparams = vcr.custom.train.out$figparams) #removed d= check if it is ok!
@@ -264,8 +252,8 @@ vcr.custom.newdata <- function(ynew, probs, vcr.custom.train.out, newDistToClass
     figparams=NULL
     farout=NULL
   }
-    
-  
+
+
   return(list(yintnew = yintnew,
               ynew = levels[yintnew],
               levels = levels,

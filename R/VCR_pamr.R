@@ -1,14 +1,3 @@
-######################### (code that will not be needed in case of classmap merge)
-#to import functions needed for VCR_pamr (especially for checkLabels, computeFarness..)
-library(cellWise) #for transfo function used in Comp fareness in VCR_auxillaryFunctions.R
-source("R_classmap_package_full/R/VCR_auxiliaryFunctions.R") #importing auxillary functions needed
-                                                             # this script is available in classmap package
-                                                             # so in case of integration of VCR_pamr this import would be useless
-
-
-library(pamr) #to get pamr.predict for newdata function, in package can just import that with import pamr.predict from pamr, also to get softshirnki etc
-#########################
-
 # functions here devised in same style as they are for other classifiers in classmap package
 # particularly here of inspiration was vcr.forest.train that takes in a forestfit object of particular package
 # here we take in pamr.train object form pamr package
