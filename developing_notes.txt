@@ -1,0 +1,63 @@
+###VCR_custom########################################################################
+-make vignettes
+-polish documentation
+-understand why indetify function is off??
+-add factor with order same of feede to algorithm (like in description of y vcr.neural.train) it is crucial if for -example comes from python where factor do not exist
+-CHECK COMPRFARNESS TYPE KNN, WHAT DIFFERS FROM AFFINE?? (knn is used in rpart where we get fig) SEEMS PRETTY MUCH THE SAME, ONLY A BIT OF STRETCH OF DIFFERENT AND THEN IN IDENTIFICATION OF OUTLIERS in the penguins datasets test, should try with another for example the lung cancer one
+
+DEBUG
+feed y not factors, should give error. OK gives error
+feed null distToclasses
+feed incorrected dist to class (for ex in dimensions)
+test quasi residual plot (with farness NULL)
+test farness
+try to feed to both functions distTovclass or newdistclass with wrong dim
+use quasi residual plot
+
+
+IN THE PACKAGE BUILD POHASE
+check import namespace
+
+### MDScolorscape ###################################################################
+
+-make vignettes
+
+
+-make input of function richer?? FOR NOW IT'S OKAY
+-when hover tell also wich is ypred LONG MAYBE LAST, YOU CAN USE ALTLAB IN VCROUT!
+-add tsne umap or other dim reduction? IT WOULD MEAN TO GO OUTSIDE MDS
+-for test add trasparency in backgorund the training, would imply redoing dissimilarity matrix together etc.  TOO LONG
+-adjust fact of indsv, in mds i can keep also observation with na values in y and na pac and plot them black REQUIRES A LITTLE BIT OF TIME; MAYBE AS LAST LAST THING
+
+DEBUG
+feed matrix with wrong dimensions DEBUGGED
+try to feed vcr out test with a class that is not present in the predictions
+feed with vcrout that has strings in factors
+
+#### VCR.PAMR #######################################################################################
+
+-still some doubts of farness computation, diag discrimant without log prior is different than mds i defined, should try on lung dataset that is larger(maybe no differenc ein farness with two methods), proably just different scaling beacuse inside we sum also a term ignored in diag discriminant
+-enable pairwise distance computation
+-add check for pamr.train$prob.type = class
+
+
+
+on the back:
+
+-could optimize fact that delta.shrunk,dd, ms2 functions are repeated in both train and newdata
+-could write vcr.pamr.cv function instead of one
+- #probs <- probs[, order(lab2int(colnames(probs)))] to use it or not? for now no, but could experiment feeding different things in different orders
+-label switching check forestfit ALL SEEMS GOOD, ADDED A FILE, ONLY FOUND A BUG IN SILPLOT LEGEND
+-FACTOR question in both function, probably: do not factorize and add alert that to pamr should be feeded in same level as in description on vcr.neural, if not factor and throw exception DECIDED TO ACCEPT ONLY FACOTR AND TELL DOCUMENTATION NB FACTORIZE AT BEGGINGING OF PIPELINE
+-decide about threshold/prior/threshold scale and other paramters if accesible or not by user in newdata
+BIG PROBLEM OF THREHOLDS! in pamr.predict allow for exact threshold, put that in documentation, but then problem with farness, put in poutput exact threhold use to predict, then also figparams is only calculated on that threhold a farness value will be off, for now deciding that user can't put threshold in vcrmpamr.newdata but we could develop feature that adds threhold (and in invcr.train figparam calculated for eacth threshold in the grid and then in newdata i take figprams nearer, should look also at computation time)
+maybe not putting both prior and threshold scale (they would influence figparams obtained in train?? prior probably not not considered in computing farness))
+also threshhold, changing threhold would mean restimate all the figparamters??? (probably can but in train should go on and compute quantities for all thresholds) DECIDED TO NOT GIVE THE OPTION TO FEED THRESHOLD AND THRESHOLD SCALE (IT WOULD THOROW UP FARNESS COMPUTATION)
+
+DEBUG
+take a defined problem with labels 1 2 3 4 and mess up using label strings, missing certain label etc (like i found bug in silplot legend)
+try pamr pamr cv in train
+try gene subset , try sign contrast
+check handling of hero norm.cent in function (adjusted like in pamr.predict)
+test low threshold, high computation (without pairwise matrix)
+try feeding to vcrnewdata a vcr.pamr.train with pamr.cv object not null
