@@ -22,7 +22,7 @@ vcr.pamr.train(data, pamrfit, pamrfitcv=NULL, threshold)
 
 
 \value{
-A list with components: \cr
+A list with components:
   \item{yint}{number of the given class of each case.}
   \item{y}{given class label of each case.}
   \item{levels}{levels of \code{y}}
@@ -38,6 +38,7 @@ A list with components: \cr
   \item{threshold}{The effective threshold value evaluated.}
   \item{ii}{The index of the threshold value evaluated.}
 }
+
 \references{--add paper at release}
 
 

@@ -1,6 +1,5 @@
 \name{vcr.pamr.newdata}
 \alias{vcr.pamr.newdata}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Prepare for visualization of a pamr (NSC) classification on new/test data.
 }
@@ -17,7 +16,7 @@ vcr.pamr.newdata(newdata, vcr.pamr.train.out, prior=NULL)
 \item{prior}{A different set of priors can be specifified as in \code{pamr::pamr.predict}.}
 }
 
-\value{A list with components: \cr
+\value{A list with components:
   \item{yintnew}{number of the given class of each case.}
   \item{ynew}{given class label of each case.}
   \item{levels}{levels of the response, from \code{vcr.pamr.train.out}.}
@@ -31,6 +30,7 @@ vcr.pamr.newdata(newdata, vcr.pamr.train.out, prior=NULL)
   \item{threshold}{The effective threshold value evaluated.}
   \item{predictparams}{A list with the inputs used to call the \code{pamr::pamr.predict} inside \code{\link{vcr.pamr.newdata}} to get the posterior probability for the considered cases.}
 }
+
 \references{--add paper at release}
 
 

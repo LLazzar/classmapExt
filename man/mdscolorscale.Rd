@@ -15,7 +15,7 @@ colorscale(vcrout, diss, classLabels = NULL, classCols=NULL,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 
-\item{vcrout}{output of a vcr.*.train or vcr.*.newdata. Required. Defines set of labeled data to evaluate and provides needed quantities for visualization (especially \code{PAC}.}
+\item{vcrout}{output of a vcr.*.train or vcr.*.newdata. Required. Defines set of labeled data to evaluate and provides needed quantities for visualization (especially \code{PAC}).}
 \item{diss}{a distance structure akin to the output from \code{dist}, or a full symmetric matrix housing pairwise dissimilarities related to the observations evaluated in vcrout. Observation order must mirror that used in creating the \code{crout object}. Distance matrix should align with the once-trained classifier's data point space perception.}
 \item{classLabels}{the labels (levels) of the classes. If \code{NULL}, they are taken from \code{vcrout}.}
 \item{classCols}{a list of colors for the classes. There should be at least as many as there are levels. If NULL a default dark tone palette is used. Darker tones are recommended for better plot interpretation.}
@@ -31,6 +31,7 @@ colorscale(vcrout, diss, classLabels = NULL, classCols=NULL,
 \value{
 A plotly plot containing the descripted visualization.
 }
+
 \references{--add paper at release}
 
 

@@ -23,7 +23,7 @@ order in the structure of the outputted posterior probabilities that should be f
 
 
 \value{
-A list with components: \cr
+A list with components:
   \item{yint}{number of the given class of each case. Can contain \code{NA}'s.}
   \item{y}{given class label of each case. Can contain \code{NA}'s.}
   \item{levels}{levels of \code{y}}
@@ -37,6 +37,7 @@ A list with components: \cr
   \item{farness}{farness of each case from its given class. Is \code{NULL} if \code{distToClass} is not feeded.}
   \item{ofarness}{for each case \code{i}, its lowest  \code{fig[i,g]} to any class \code{g}. Is \code{NULL} if \code{distToClass} is not feeded.}
 }
+
 \references{--add paper at release}
 
 
