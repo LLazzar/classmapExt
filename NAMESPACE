@@ -1,1 +1,23 @@
-exportPattern("^[[:alpha:]]+")
+#import for both vcr.custom and vcr.pamr
+importFrom("cellWise", "transfo", "truncPC") #already imported in classmap package
+
+#for new feature graphic display mdscolorscale
+import("plotly")
+importFrom("stats","cmdscale")
+importFrom("gplots","col2hex")
+importFrom("grDevices","col2rgb")
+importFrom("colorspace","darken")
+
+#for vcr.pamr
+importFrom("pamr", "pamr.predict")
+importFrom("stats","cmdscale")
+importFrom("stats","mahalanobis")
+
+
+
+#new functions to make available for user
+export(vcr.custom.train)
+export(vcr.custom.newdata)
+export(vcr.pamr.train)
+export(vcr.pamr.newdata)
+export(mdscolorscale)
