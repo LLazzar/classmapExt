@@ -15,8 +15,8 @@ colorscale(vcrout, diss, classLabels = NULL, classCols=NULL,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 
-\item{vcrout}{output of a vcr.*.train or vcr.*.newdata. Required. Defines set of data considered and provided needed quantities for visualization.}
-\item{diss}{a distance structure akin to the output from \code{dist}, or a full symmetric matrix housing pairwise dissimilarities related to the observations evaluated in vcrout. Observation order must mirror that used in creating the \code{crout object}. Distance matrix should align with the trained classifier's data point space perception.}
+\item{vcrout}{output of a vcr.*.train or vcr.*.newdata. Required. Defines set of labeled data to evaluate and provides needed quantities for visualization (especially \code{PAC}.}
+\item{diss}{a distance structure akin to the output from \code{dist}, or a full symmetric matrix housing pairwise dissimilarities related to the observations evaluated in vcrout. Observation order must mirror that used in creating the \code{crout object}. Distance matrix should align with the once-trained classifier's data point space perception.}
 \item{classLabels}{the labels (levels) of the classes. If \code{NULL}, they are taken from \code{vcrout}.}
 \item{classCols}{a list of colors for the classes. There should be at least as many as there are levels. If NULL a default dark tone palette is used. Darker tones are recommended for better plot interpretation.}
 \item{main}{title for the plot. If \code{NULL}, a default title is used.}
@@ -32,15 +32,15 @@ colorscale(vcrout, diss, classLabels = NULL, classCols=NULL,
 A plotly plot containing the descripted visualization.
 }
 \references{--add paper at release}
-}
+
 
 \author{
  Lazzari. L.
 }
 
 \seealso{
-\code{\link{vcr.custom.train}}, \code{\link{vcr.custom.newdata}}, \code{\link{classmap}}, \code{\link{silplot}}}
-}
+\code{\link{vcr.custom.train}}, \code{\link{vcr.custom.newdata}}, \code{vcr.*.*} from classmap package.}
+
 
 \examples{
 # For examples, we refer to the vignette:
