@@ -37,6 +37,7 @@ A list with components:
   \item{pamrfitcv}{The \code{pamrfitcv} object taken as input, if provided.}
   \item{threshold}{The effective threshold value evaluated.}
   \item{ii}{The index of the threshold value evaluated.}
+  \item{pwd}{Matrix containing pairwise distances for the considered set of cases. The distance measure is devised based on the sense of proximity between data points of the trained classifier in its decision space. Necessary input to \code{\link{mdscolorscale}}.}
 }
 
 \references{--add paper at release}

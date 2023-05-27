@@ -4,7 +4,8 @@
 Prepare for visualization of a pamr (NSC) classification on new/test data.
 }
 \description{
-Produces output for the purpose of constructing graphical displays such as the \code{\link{silplot}, \code{\link{qresplot} and \code{\link{mdscolorscale}}. Requires the output of \code{\link{vcr.pamr.train}} as an argument.}
+Produces output for the purpose of constructing graphical displays such as the \code{\link{silplot}}, \code{\link{qresplot}} and \code{\link{mdscolorscale}}. Requires the output of \code{\link{vcr.pamr.train}} as an argument. New data is predicted at the effective \code{threshold} used in \code{vcr.pamr.train.out}.
+}
 
 \usage{
 vcr.pamr.newdata(newdata, vcr.pamr.train.out, prior=NULL)
@@ -29,13 +30,14 @@ vcr.pamr.newdata(newdata, vcr.pamr.train.out, prior=NULL)
   \item{ofarness}{for each case \eqn{i}, its lowest  \eqn{fig[i,g]} to any class \eqn{g}. Is \code{NULL} if distToClass is not feeded.}
   \item{threshold}{The effective threshold value evaluated.}
   \item{predictparams}{A list with the inputs used to call the \code{pamr::pamr.predict} inside \code{\link{vcr.pamr.newdata}} to get the posterior probability for the considered cases.}
+  \item{pwd}{Matrix containing pairwise distances for the considered set of cases. The distance measure is devised based on the sense of proximity between data points of the trained classifier in its decision space. Necessary input to \code{\link{mdscolorscale}}.}
 }
 
 \references{--add paper at release}
 
 
 \author{
- Lazzari. L, Raymaekers J., Rousseeuw P.J.
+ Lazzari. L
 }
 
 \seealso{
