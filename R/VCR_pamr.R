@@ -58,6 +58,11 @@ vcr.pamr.train <- function(data, pamrfit, pamrfitcv=NULL, threshold) {
   #}
   #
   #
+  #check if inputted y is a factor
+  if (!is.factor(data$y)) {
+    stop("data $y component is not a factor! Read carefully the doc")
+  }
+
   #check if inputted dat is the same as the one feeded for the pamrfit object
   if (!identical(data$y,pamrfit$y)) {
     stop("Inputted data is not the same data inputted for creating the inputted pamrfit object")
@@ -340,7 +345,30 @@ vcr.pamr.train <- function(data, pamrfit, pamrfitcv=NULL, threshold) {
     pwd
   }
 
-  #pwd=pw_mdS2(xtest, sd, weight=posid) #for now it is inactive
+  pw_mdS2_optimized <- function(x, sd, prior, weight) {
+    if(! missing(weight)) {
+      posid <- (weight > 0)
+      if(any(posid)) {
+        weight <- sqrt(weight[posid])
+        x <- x[posid, , drop = FALSE] * weight
+      } else {
+        mat <- outer(rep(1, ncol(x)), log(prior), "*")
+        dimnames(mat) <- list(NULL, dimnames(x)[[2]])
+        return(mat)
+      }
+    }
+    p = ncol(x)
+    n = nrow(x)
+    sd = sd[posid]
+    x = scale(t(x), scale = sd) # centering is not required if x is already centered
+    pwd = as.matrix(dist(x))   # Euclidean distances for scaled x
+    pwd = pwd^2                # squaring to get squared distances
+    pwd   #is same as scale dueuclidean since we suppose in pamr uncorrelation between variables
+  }
+
+
+
+  pwd=pw_mdS2_optimized(data$x, sd, weight=posid) #for now it is inactive
 
   ###############################################
 
@@ -360,10 +388,11 @@ vcr.pamr.train <- function(data, pamrfit, pamrfitcv=NULL, threshold) {
               pamrfit = pamrfit, #needed for computations in vcr.pamr.newdata
               pamrfitcv = pamrfitcv, #needed to test in vcr.pamr.newdata whether vcr.pamr.train out is right
               threshold = threshold, #effective threshold used
-              ii=ii #number of threshold selected
+              ii=ii, #number of threshold selected
               #distToClass=distToClass, #added for debug
               #posid=posid, #posid and sd could be added for outside pairwise dissimilarity computation
               #sd=sd
+              pwd=pwd #pairwise distances in the eyes of the classifier
               ))
 }
 
@@ -403,6 +432,10 @@ vcr.pamr.newdata <- function(newdata, vcr.pamr.train.out, prior=NULL){ #threshol
 
   #subsetting to same subset of gene
   #newdata$x=newdata$x[vcr.pamr.train.out$pamrfit$gene.subset , ] #subsetting not needed, not done in pamr.predict, should be already inherited thogh pamrfit from vcr.pamr.out
+  #check if inputted y is a factor
+  if (!is.factor(newdata$y)) {
+    stop("newdata $y component is not a factor! Read carefully the doc")
+  }
 
   Xnew <- as.matrix(t(newdata$x))
 
@@ -623,7 +656,28 @@ vcr.pamr.newdata <- function(newdata, vcr.pamr.train.out, prior=NULL){ #threshol
                         nlab = nlab, X = NULL, fig = newDistToclass,
                         d = NULL, figparams = vcr.pamr.train.out$figparams)
 
+  pw_mdS2_optimized <- function(x, sd, prior, weight) {
+    if(! missing(weight)) {
+      posid <- (weight > 0)
+      if(any(posid)) {
+        weight <- sqrt(weight[posid])
+        x <- x[posid, , drop = FALSE] * weight
+      } else {
+        mat <- outer(rep(1, ncol(x)), log(prior), "*")
+        dimnames(mat) <- list(NULL, dimnames(x)[[2]])
+        return(mat)
+      }
+    }
+    p = ncol(x)
+    n = nrow(x)
+    sd = sd[posid]
+    x = scale(t(x), scale = sd) # centering is not required if x is already centered
+    pwd = as.matrix(dist(x))   # Euclidean distances for scaled x
+    pwd = pwd^2                # squaring to get squared distances
+    pwd   #is same as scale dueuclidean since we suppose in pamr uncorrelation between variables
+  }
 
+  pwd=pw_mdS2_optimized(newdata$x, sd, weight=posid)
 
   return(list(yintnew = yintnew,
               ynew = levels[yintnew],
@@ -637,7 +691,8 @@ vcr.pamr.newdata <- function(newdata, vcr.pamr.train.out, prior=NULL){ #threshol
               farness = farout$farness,
               ofarness = farout$ofarness,
               threshold=threshold, #effective threshold used in pamr.prediction
-              predictparams=predictparams #parameters used to run pamr.predict inside the function
+              predictparams=predictparams, #parameters used to run pamr.predict inside the function
+              pwd=pwd #pairwise distances for new cases
               ))
 }
 
